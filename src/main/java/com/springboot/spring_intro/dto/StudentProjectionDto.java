@@ -1,0 +1,15 @@
+package com.springboot.spring_intro.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class StudentProjectionDto {
+
+    private String firstName;
+    private String lastName;
+    private String email;
+}

@@ -60,11 +60,12 @@ public class SecurityConfig {
                                         "/auth/otp/**")
                                 .permitAll()
 
-                                .requestMatchers(HttpMethod.GET,
+                                .requestMatchers(HttpMethod.GET,"/api/students",
                                         "/api/students/**")
                                 .hasAnyRole("USER", "ADMIN")
 
                                 .requestMatchers(HttpMethod.POST,
+                                        "/api/students",
                                         "/api/students/**")
                                 .hasRole("ADMIN")
 

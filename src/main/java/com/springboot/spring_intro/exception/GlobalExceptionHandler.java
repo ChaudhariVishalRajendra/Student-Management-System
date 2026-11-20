@@ -116,4 +116,21 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(res, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse<Object>> handleGenericException(Exception ex,
+                                                                      HttpServletRequest req) {
+        log.error("==> [GlobalExceptionHandler] 500 Internal Server Error at [{} {}] | Exception: {} | Message: {}",
+                req.getMethod(), req.getRequestURI(), ex.getClass().getName(), ex.getMessage(), ex);
+
+        ApiResponse<Object> errorResponse = new ApiResponse<>(
+                false,
+                LocalDateTime.now(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                ex.getMessage() != null ? ex.getMessage() : "Internal Server Error (" + ex.getClass().getSimpleName() + ")",
+                req.getRequestURI()
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

@@ -46,14 +46,22 @@ public class SecurityConfig {
                 .csrf(csrf-> csrf.disable())
                 .authorizeHttpRequests(auth->auth
 
-                        // Swagger/ Open Api
-                        .requestMatchers("/swagger-ui/**",
+                        // Render Health Check, Error & Swagger/OpenAPI
+                        .requestMatchers(
+                                "/",
+                                "/error",
+                                "/favicon.ico",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
                                 "/swagger-ui.html/**",
-                                "/v3/api-docs/**")
-                        .permitAll()
+                                "/v3/api-docs/**",
+                                "/v3/api-docs"
+                        ).permitAll()
+
+                        // Allow all preflight OPTIONS requests for CORS
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                         // Authentication API
-                        // Get -> USER +ADMIN
                                 .requestMatchers("/auth/login",
                                         "/auth/refresh",
                                         "/auth/logout",

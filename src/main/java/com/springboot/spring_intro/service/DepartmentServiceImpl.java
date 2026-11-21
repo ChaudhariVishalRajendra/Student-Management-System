@@ -9,6 +9,7 @@ import com.springboot.spring_intro.repository.DepartmentRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -45,6 +46,12 @@ public class DepartmentServiceImpl implements DepartmentService {
         DepartmentResDTO dto = new DepartmentResDTO();
         dto.setId(department.getId());
         dto.setDepartmentName(department.getDepartmentName());
+
+        if (department.getStudents() == null) {
+            dto.setStudents(Collections.emptyList());
+            return dto;
+        }
+
         List<StudentResDto> student = department.getStudents()
                 .stream()
                 .map(std -> {
@@ -54,15 +61,19 @@ public class DepartmentServiceImpl implements DepartmentService {
                     studentDto.setLastName(std.getLastName());
                     studentDto.setEmail(std.getEmail());
 
-                    studentDto.setCourses(std.getCourses()
-                            .stream()
-                            .map(course->{
+                    if (std.getCourses() != null) {
+                        studentDto.setCourses(std.getCourses()
+                                .stream()
+                                .map(course -> {
                                     CourseResDto dto1 = new CourseResDto();
                                     dto1.setId(course.getId());
                                     dto1.setCourseName(course.getCourseName());
                                     return dto1;
-                            }).toList()
-                    );
+                                }).toList()
+                        );
+                    } else {
+                        studentDto.setCourses(Collections.emptyList());
+                    }
                     return studentDto;
                 }).toList();
         dto.setStudents(student);

@@ -459,6 +459,7 @@ public class StudentServiceImpl implements StudentService {
         } else {
             dto.setCourses(Collections.emptyList());
         }
+
 //        dto.setDepartmentName(student.getDepartment().getDepartmentName());
 //
 //        dto.setCourses(

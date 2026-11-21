@@ -368,7 +368,7 @@ public class StudentController {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment;filename=\"", resource.getFilename()+"\"")
+                        "attachment;filename=\"" + resource.getFilename()+"\"")
                 .body(resource);
     }
 

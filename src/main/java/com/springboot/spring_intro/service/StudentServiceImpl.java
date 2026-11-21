@@ -32,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -436,20 +437,42 @@ public class StudentServiceImpl implements StudentService {
             dto.setAddress(addressResponseDTO);
         }
 
-        dto.setDepartmentName(student.getDepartment().getDepartmentName());
+        // Department ke liye Null Check:
+        if (student.getDepartment() != null) {
+            dto.setDepartmentName(student.getDepartment().getDepartmentName());
+        }
 
-        dto.setCourses(
-                student.getCourses()
-                        .stream()
-                        .map(course -> new
-                                CourseResDto(
-                                        course.getId(),
-                                course.getCourseName(),
-                                course.getDuration(),
-                                course.getFees(),
-                                course.getInstructorName()
-                        )).toList()
-        );
+        // Courses ke liye Null Check:
+        if (student.getCourses() != null) {
+            dto.setCourses(
+                    student.getCourses()
+                            .stream()
+                            .map(course -> new
+                                    CourseResDto(
+                                    course.getId(),
+                                    course.getCourseName(),
+                                    course.getDuration(),
+                                    course.getFees(),
+                                    course.getInstructorName()
+                            )).toList()
+            );
+        } else {
+            dto.setCourses(Collections.emptyList());
+        }
+//        dto.setDepartmentName(student.getDepartment().getDepartmentName());
+//
+//        dto.setCourses(
+//                student.getCourses()
+//                        .stream()
+//                        .map(course -> new
+//                                CourseResDto(
+//                                        course.getId(),
+//                                course.getCourseName(),
+//                                course.getDuration(),
+//                                course.getFees(),
+//                                course.getInstructorName()
+//                        )).toList()
+//        );
         dto.setVersion(student.getVersion());
 
         return dto;
